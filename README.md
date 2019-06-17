@@ -70,6 +70,8 @@ docker-compose exec web python manage.py migrate
 ```shell
 docker-compose exec web python manage.py populate_db
 ```
+
+API url: http://127.0.0.1:8000/swagger/
 ## Running tests
 After starting Docker Compose and running migration command, you can run tests inside Docker using command bellow.
 ```shell
@@ -96,3 +98,5 @@ Production mode requires one additional step which setups static files
 docker-compose -f docker-compose-prod.yml exec web python manage.py collectstatic
 ```
 You will need to enter `yes` to confirm this command.
+
+API url: http://127.0.0.1:1337/swagger/
