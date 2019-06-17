@@ -1,9 +1,9 @@
 # Applause Assignment - Tester Matching
-A REST API developed using Django framework.
+A REST API developed using the Django framework.
 ## Assumptions
 - Times in `testers.csv` file are in UTC timezone.
-- Testers could reported a bug on a divice that they no longer own
-- If tester doesn't own a device anymore bugs related to this device don't count towards expirience
+- Testers could report a bug on a device that they no longer own
+- If a tester doesn't own a device anymore the bugs related to this device don't count towards experience
 ## Technologies used
 
 ### REST API:
@@ -20,7 +20,7 @@ A REST API developed using Django framework.
 - Gunicorn
 ## API schema
 ### [GET] <ip/domain>/match-testers/
-Returns list of testers ordered by experience. It can take two query parameters: countries and
+Returns list of testers ordered by experience. It can take two query parameters:
 
 #### Query parameters:
 - devices `(array[integer])` - devices for which experience should be calculated, empty means all devices
@@ -37,9 +37,9 @@ I've defined 3 simple database models:
 - Device
 - Bug
 
-Many to many relation between Testers and Devices is defined using Django's manytomany field which internally creates a database table. Countries are defined as simple tuple inside the code. 
+Many to many relation between Testers and Devices is defined using Django's manytomany field which internally creates a database table. Countries are defined as a simple tuple inside the code. 
 ## Using the API
-The easiest way to test and explore the API is to use the swagger endpoint: `<ip/domain>/swagger/`.
+The easiest way to test and explore the API is to use swagger: `<ip/domain>/swagger/`.
 
 Browsing the API:
 ![alt text](DocumentationImages/swagger1.PNG?raw=true "Swagger - Browsing the API")
@@ -53,17 +53,17 @@ You can run it the same way you would run any other django-admin command.
 ```shell
 python manage.py populate_db
 ```
-Script requires the database tables to be empty to avoid collisions and to avoid populating database twice by mistake.  If tables are not empty script throughs an error.
+Script requires the database tables to be empty to avoid collisions and to avoid populating database twice by mistake.  If tables are not empty script throws an error.
 ## Running the app
 App requires PostgreSQL database. Because of that the easiest way to run it locally is to use Docker Compose. 
 
-First open terminal in the TeststerMatch directory. 
+First, open terminal in the TeststerMatch directory. 
 
 To start the app in a development mode run this command:
 ```shell
 docker-compose up
 ```
-After docker containers are up. You need to run this two commands in other terminal in the same directory to setup the database.
+After docker containers are up, you need to run these two commands in another terminal to setup the database.
 ```shell
 docker-compose exec web python manage.py migrate
 ```
@@ -71,14 +71,14 @@ docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py populate_db
 ```
 ## Running tests
-After starting Docker Compose and running migration command. You can run tests inside Docker using command bellow.
+After starting Docker Compose and running migration command, you can run tests inside Docker using command bellow.
 ```shell
 docker-compose exec web python manage.py test
 ```
-## Running the app in production-like setup
-I think it's a good idea to show something more than just working Django development server. So I've created 2nd docker-compose file which is much closer to an actually deployed app.
+## Running the app in a production-like setup
+I think it's a good idea to show something more than just a working Django development server. I've created a second docker-compose file which is much closer to an actually deployed app.
 
-It uses Gunicorn to server the application and Nginx as web server.
+It uses Gunicorn to serve the application and Nginx as web server.
 
 To start app in a production mode run this command:
 ```shell
