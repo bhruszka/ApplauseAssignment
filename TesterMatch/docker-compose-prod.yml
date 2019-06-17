@@ -4,23 +4,31 @@ services:
   db:
     image: postgres
     volumes:
-# Windows:
-#      - tester-postgresql:/var/lib/postgresql/data
-# Non windows:
-      - ./postgres-data:/var/lib/postgresql/data
+      - prod_tester-postgresql:/var/lib/postgresql/data
+    container_name: prod_db
 
   web:
     build: .
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py runserver 0.0.0.0:8000'
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; gunicorn TesterMatch.wsgi:application --bind 0.0.0.0:8000'
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
+      - prod_django-static:/code/static
+    expose:
+      - 8000
     env_file:
       - prod.env
     depends_on:
       - db
-# Windows:
-#volumes:
-#  tester-postgresql:
-#    external: true
+    container_name: prod_web
+  nginx:
+    build: ./nginx
+    volumes:
+      - prod_django-static:/usr/src/app/staticfiles
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+    container_name: prod_nginx
+volumes:
+  prod_tester-postgresql:
+  prod_django-static:

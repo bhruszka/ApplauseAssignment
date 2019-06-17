@@ -1,7 +1,6 @@
 from django.db import models
 
 SUPPORTED_COUNTRIES = (('GB', 'United Kingdom'), ('US', ' United States of America'), ('JP', 'Japan'))
-SUPPORTED_COUNTRIES_VALUES = [c[0] for c in SUPPORTED_COUNTRIES]
 
 
 class Device(models.Model):

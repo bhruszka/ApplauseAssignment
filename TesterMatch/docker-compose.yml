@@ -4,11 +4,7 @@ services:
   db:
     image: postgres
     volumes:
-# Windows:
-#      - tester-postgresql:/var/lib/postgresql/data
-# Non windows:
-      - ./postgres-data:/var/lib/postgresql/data
-
+      - tester-postgresql:/var/lib/postgresql/data
   web:
     build: .
     command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py runserver 0.0.0.0:8000'
@@ -20,7 +16,5 @@ services:
       - dev.env
     depends_on:
       - db
-# Windows:
-#volumes:
-#  tester-postgresql:
-#    external: true
+volumes:
+  tester-postgresql:

@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import path
 
-from .views import match_testers
+from .views import match_testers, DeviceList
 
 urlpatterns = [
-    url(r'^match-testers/', match_testers, name='match_testers'),
+    path('match-testers/', match_testers, name='match_testers'),
+    path('devices/', DeviceList.as_view(), name='device_list'),
 ]
-

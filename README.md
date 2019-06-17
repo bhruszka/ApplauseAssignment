@@ -1,13 +1,6 @@
 # Applause Assignment - Tester Matching
 My solution to the task is a REST API developed using Django framework. 
-
-## API schema
-
-## Data model
-
-
-
-## Technology
+## Technologies used
 
 ### REST API:
 - Python 3
@@ -19,7 +12,9 @@ My solution to the task is a REST API developed using Django framework.
 ### Other tools:
 - Docker
 - Docker Compose
+## API schema
 
+## Data model
 ## Using the API
 ## Importing the data
 Data can be imported using custom django-admin command called `populate_db`. 
@@ -45,17 +40,8 @@ docker-compose exec web python manage.py migrate
 ```shell
 docker-compose exec web python manage.py populate_db
 ```
-### Windows only (probably)
-Temporarly I have only access to Windows machine. However, after checking online it seems that this is Windows exclusive issue.
-
-There's an issue running volume for the postgres container 'the normal way' on Windows. To overcome it you need to create volume and use it instead of the host volume.
-```shell
-docker volume create --name tester-postgresql -d local
-``` 
-You also need modify `docker-compose.yml`. I left comments about this inside the file. 
-
-### Running tests
-After starting Docker Compose and making migration. You can tests inside Docker container using command bellow.
+## Running tests
+After starting Docker Compose and running migration command. You can run tests inside Docker using command bellow.
 ```shell
 docker-compose exec web python manage.py test
 ```

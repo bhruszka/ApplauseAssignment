@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tester
+from .models import Tester, Device
 
 
 class TesterSerializer(serializers.ModelSerializer):
@@ -8,3 +8,9 @@ class TesterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tester
         fields = ('experience', 'first_name', 'last_name', 'country')
+
+
+class DeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Device
+        fields = ('description', 'id')

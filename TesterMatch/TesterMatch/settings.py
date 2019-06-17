@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'drf_yasg',
     'testers',
 ]
@@ -66,7 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-        },
+        }
     },
 ]
 
@@ -78,10 +79,10 @@ WSGI_APPLICATION = 'TesterMatch.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'NAME': env.str('DB_NAME', 'postgres'),
+        'USER': env.str('DB_USER', 'postgres'),
+        'HOST': env.str('DB_HOST', 'db'),
+        'PORT': env.int('DB_PORT', 5432),
     }
 }
 
@@ -120,6 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False

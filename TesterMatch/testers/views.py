@@ -1,16 +1,39 @@
 from django.db.models import Count, Q, F
-from rest_framework import status
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from testers.serializers import TesterSerializer
-from .models import Tester, SUPPORTED_COUNTRIES_VALUES, Device
+from testers.serializers import TesterSerializer, DeviceSerializer
+from .models import Tester, SUPPORTED_COUNTRIES, Device
+
+SUPPORTED_COUNTRIES_VALUES = [c[0] for c in SUPPORTED_COUNTRIES]
+
+# Values needed for generating swagger schema
+testers_response = openapi.Response('response description', TesterSerializer(many=True))
+
+devices_param = openapi.Parameter('devices', openapi.IN_QUERY,
+                                  description="devices for which experience should be calculated, empty means all",
+                                  type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_INTEGER))
+countries_param = openapi.Parameter('countries', openapi.IN_QUERY,
+                                    description="countries from which testers should be included, empty means any",
+                                    type=openapi.TYPE_ARRAY,
+                                    explode=True,
+                                    items=openapi.Items(type=openapi.TYPE_STRING, enum=SUPPORTED_COUNTRIES_VALUES),)
 
 
+@swagger_auto_schema(method='get', manual_parameters=[devices_param, countries_param],
+                     responses={200: testers_response},
+                     operation_description='Returns list of testers ordered by experience')
 @api_view(['GET'])
 def match_testers(request):
     query_countries = request.GET.getlist('countries')
     query_devices = request.GET.getlist('devices')
+
+    # Accepting different formats of array in query params
+    query_countries = [c for q_c in query_countries for c in q_c.split(',')]
+    query_devices = [d for q_d in query_devices for d in q_d.split(',')]
 
     # Checking if all countries in query parameters are valid
     if not all([c in SUPPORTED_COUNTRIES_VALUES for c in query_countries]):
@@ -34,4 +57,6 @@ def match_testers(request):
     return Response(serializer.data)
 
 
-# country = openapi.Parameter('country', openapi.IN_QUERY, description="test manual param", type=openapi.TYPE_ARRAY)
+class DeviceList(generics.ListAPIView):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
