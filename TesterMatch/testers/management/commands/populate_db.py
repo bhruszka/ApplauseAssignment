@@ -4,7 +4,6 @@ import pytz
 
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
-from django.utils import timezone
 from testers.models import Device, Tester, Bug
 
 
@@ -43,11 +42,11 @@ class Command(BaseCommand):
 
         # Populating tester and device relation
         device_tester_relations = self._read_device_tester_data()
-        for device_id, testers in device_tester_relations.items():
-            self.stdout.write('Adding {} device tester relations'.format(len(testers)))
-            d = Device.objects.get(id=device_id)
-            d.testers.add(*testers)
-            d.save()
+        for tester_id, devices in device_tester_relations.items():
+            self.stdout.write('Adding {} device tester relations'.format(len(devices)))
+            t = Tester.objects.get(id=tester_id)
+            t.devices.add(*devices)
+            t.save()
 
     @staticmethod
     def _read_data(path, map_func):
@@ -85,6 +84,6 @@ class Command(BaseCommand):
             next(reader, None)
             for row in reader:
                 if row:
-                    relations.setdefault(row[1], []).append(row[0])
+                    relations.setdefault(row[0], []).append(row[1])
 
         return relations

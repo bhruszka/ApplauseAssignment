@@ -1,6 +1,14 @@
 from django.db import models
 
 SUPPORTED_COUNTRIES = (('GB', 'United Kingdom'), ('US', ' United States of America'), ('JP', 'Japan'))
+SUPPORTED_COUNTRIES_VALUES = [c[0] for c in SUPPORTED_COUNTRIES]
+
+
+class Device(models.Model):
+    description = models.CharField(max_length=280)
+
+    def __str__(self):
+        return '{} - {}'.format(self.id, self.description)
 
 
 class Tester(models.Model):
@@ -8,17 +16,10 @@ class Tester(models.Model):
     last_name = models.CharField(max_length=80)
     country = models.CharField(max_length=2, choices=SUPPORTED_COUNTRIES)
     last_login = models.DateTimeField()
+    devices = models.ManyToManyField(Device)
 
     def __str__(self):
         return '{} - {} - {} - {} - {}'.format(self.id, self.first_name, self.last_name, self.country, self.last_login)
-
-
-class Device(models.Model):
-    description = models.CharField(max_length=280)
-    testers = models.ManyToManyField(Tester)
-
-    def __str__(self):
-        return '{} - {}'.format(self.id, self.description)
 
 
 class Bug(models.Model):
