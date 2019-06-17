@@ -42,10 +42,10 @@ Many to many relation between Testers and Devices is defined using Django's many
 The easiest way to test and explore the API is to use the swagger endpoint: `<ip/domain>/swagger/`.
 
 Browsing the API:
-![alt text](DocumentationImages/swagger1.png?raw=true "Swagger - Browsing the API")
+![alt text](DocumentationImages/swagger1.PNG?raw=true "Swagger - Browsing the API")
 
 Making a request:
-![alt text](DocumentationImages/swagger2.png?raw=true "Swagger - Making a request")
+![alt text](DocumentationImages/swagger2.PNG?raw=true "Swagger - Making a request")
 ## Importing the data
 Data can be imported using custom django-admin command called `populate_db`. 
 
