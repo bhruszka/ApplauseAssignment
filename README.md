@@ -1,5 +1,5 @@
-# Applause Assignment - Tester Matching
-A REST API developed using the Django framework.
+# Interview Assignment - Tester Matching
+A REST API developed using the Django framework as a take home assigment for a job interview back in 2019.
 ## Assumptions
 - Times in `testers.csv` file are in UTC timezone.
 - Testers could report a bug on a device that they no longer own
