@@ -59,8 +59,10 @@ App requires PostgreSQL database. Because of that the easiest way to run it loca
 
 First, open terminal in the TeststerMatch directory. 
 
-To start the app in a development mode run this command:
+To start the app in a development mode run this commands:
 ```shell
+cp db.env.template db.env
+cp dev.env.template dev.env
 docker-compose up
 ```
 After docker containers are up, you need to run these two commands in another terminal to setup the database.
@@ -82,8 +84,10 @@ I think it's a good idea to show something more than just a working Django devel
 
 It uses Gunicorn to serve the application and Nginx as web server.
 
-To start app in a production mode run this command:
+To start app in a production mode run this commands:
 ```shell
+cp db.env.template db.env
+cp prod.env.template prod.env
 docker-compose -f docker-compose-prod.yml up
 ```
 Next two steps are pretty much the same as for the development mode.
